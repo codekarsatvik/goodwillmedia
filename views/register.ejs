@@ -1,0 +1,30 @@
+<%- include('partials/loginlayout') %>
+
+<div class="loginContainer">
+  <h1>Register</h1>
+  <form id="registerForm" method="post" onsubmit="event.preventDefault(); validateForm();">
+    <p class="errorMessage"><%= payload.errorMessage %></p>
+
+    <input value="<%= payload.firstName %>" type="text" name="firstName" placeholder="First name" required=""/>
+    <input value="<%= payload.lastName %>" type="text" name="lastName" placeholder="Last name" required=""/>
+    <input value="<%= payload.username %>" type="text" name="username" placeholder="Username" required=""/>
+    <input value="<%= payload.email %>" type="email" name="email" placeholder="Email" required=""/>
+    <input  id="password" type="password" name="password" placeholder="Password" required=""/>
+    <input  id="passwordConf" type="password" name="passwordConf" placeholder="Confirm password" required=""/>
+    <input type="submit" value="Register"/>
+  </form><a href="/login">Already have an account? Login here.</a>
+</div>
+<script>
+  var passwordField = document.getElementById("password")
+  var passwordConfirmField = document.getElementById("passwordConf")
+  var form = document.getElementById("registerForm")
+
+  function validateForm() {
+      if(passwordField.value != passwordConfirmField.value) {
+          alert("Passwords do not match. Please try again.")
+      }
+      else {
+          form.submit();
+      }
+  }
+</script>

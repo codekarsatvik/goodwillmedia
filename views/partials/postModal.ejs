@@ -1,0 +1,27 @@
+<!-- Modal -->
+<div class="modal fade" id="replyModal" tabindex="-1" role="dialog" aria-labelledby="replyModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document" style="">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="replyeModalLabel">Reply</h5>
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        <div class="replyPost"></div>
+        <div class="modal-body" style="padding : 0">
+            <div class="postFormContainer">
+                <div class="userImageContainer"><img src="<%= payload.userLoggedIn.profilePic %>" alt="User's profile picture"/></div>
+                <div class="textareaContainer">
+                  <textarea id="replyTextarea" placeholder="What's happening?"></textarea>
+                  
+                </div>
+              </div>
+        </div>
+        <div class="modal-footer">
+        
+          <button type="button" class="btn btn-primary replyButton" id="submitReplyButton" disabled="">Reply</button>
+        </div>
+      </div>
+    </div>
+  </div>
