@@ -1,18 +1,8 @@
 
 <%- include('partials/mainlayout') %>
 
-<div class="postFormContainer">
-  <div class="userImageContainer"><img src="<%= payload.userLoggedIn.profilePic %>" alt="User's profile picture"/></div>
-  <div class="textareaContainer">
-    <textarea id="postTextarea" placeholder="What's happening?"></textarea>
-    <div class="buttonsContainer">
-      <button id="submitPostButton" disabled="">Post</button>
-    </div>
-  </div>
-</div>
-<div class="postsContainer">
-<!-- <button type="button" name="button" class = "likeButton">press me</button> -->
-</div>
+
+
 <%- include('partials/postModal') %>
 </div>
 <div class="d-none d-md-block col-md-2 col-lg-4"></div>

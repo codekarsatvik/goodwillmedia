@@ -29,7 +29,11 @@ h1 {
     margin: 0;
 }
 .col-2{
-  position: sticky !important;
+    display: flex;
+    position: sticky !important;
+    flex-wrap: wrap;
+    flex-direction: column;
+  
 }
 nav {
     top : 20px;
@@ -197,7 +201,7 @@ button span {
 .postButtonContainer.red button.active{
     color: var(--red);
 } 
-.postButtonContainer.green button.active{
+.postButtonContainer.green button.retweet{
     color: var(--green);
 } 
 .postButtonContainer.red button:hover{
@@ -225,4 +229,22 @@ button span {
 
     margin-bottom: 5px;
     font-size:13px;
+}
+.large{
+
+    font-size:20px;
+     
+}
+.deletePost{
+    display: block !important;
+}
+.dropdown-menu :hover{
+    color:none !important;
+}
+.smallPost{
+    margin: 10px;
+    
+    border: 1px solid var(--lightGrey) !important;
+    border-radius: 10px;
+    
 }

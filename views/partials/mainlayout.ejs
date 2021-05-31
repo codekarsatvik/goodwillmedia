@@ -13,13 +13,62 @@
 
   <body>
     <script>
-      var userLoggedIn =  <%- payload.userLoggedInJs %>
+      var userLoggedIn =  <%- payload.userLoggedInJs %> 
+     
     </script>
     
     <div class="wrapper">
       <div class="row">
-        <nav class="col-2"><a class="blue" href="/"><img src='images\logo.png' style="width:55px;height:55px"></a><a href="/"><i class="hide fas fa-home"></i></a><a href="/search"><i class=" hide fas fa-search"></i></a><a href="/notifications"><i class="fas fa-bell"></i></a><a href="/messages"><i class="fas fa-envelope"></i></a><a href="/profile"><i class="fas fa-user"></i></a><a href="/logout"><i class="fas fa-sign-out-alt"></i></a></nav>
+        <nav class="col-2"><a class="blue" href="/"><img src='../images/logo.png' style="width:55px;height:55px"></a><a href="/"><i class="hide fas fa-home"></i></a><a href="/search"><i class=" hide fas fa-search"></i></a><a href="/notifications"><i class="fas fa-bell"></i></a><a href="/messages"><i class="fas fa-envelope"></i></a><a href="/profile"><i class="fas fa-user"></i></a><a href="/logout"><i class="fas fa-sign-out-alt"></i></a></nav>
         <div class="mainSectionContainer col-10 col-md-8 col-lg-6">
           <div class="titleContainer">
             <h1> <%= payload.pageTitle %></h1>
+          </div>
+          <div class="modal fade" id="deleteModal" tabindex="-1" role="dialog" aria-labelledby="deleteModalLabel" aria-hidden="true">
+            <div class="modal-dialog" role="document" style="">
+              <div class="modal-content">
+                <div class="modal-header">
+                  <h5 class="modal-title" id="deleteModalLabel">Confirm Delete</h5>
+                  <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                  </button>
+                </div>
+                <div class="deletePostArea"></div>
+              
+                <div class="modal-footer">
+                
+                  <button type="button" class="btn btn-primary " id="submitDeleteButton" >Delete</button>
+                </div>
+              </div>
+            </div>
+          </div>
+
+
+          <!-- quote retweet modal -->
+          <div class="modal fade" id="quoteRetweetModal" tabindex="-1" role="dialog" aria-labelledby="quoteRetweetModalLabel" aria-hidden="true">
+            <div class="modal-dialog" role="document" style="">
+              <div class="modal-content">
+                <div class="modal-header">
+                  <h5 class="modal-title" id="quoteRetweetModalLabel">Quote Retweet</h5>
+                  <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                  </button>
+                </div>
+                <div class="modal-body" style="padding : 0">
+                  <div class="postFormContainer">
+                      <div class="userImageContainer"><img src="<%= payload.userLoggedIn.profilePic %>" alt="User's profile picture"/></div>
+                      <div class="textareaContainer">
+                        <textarea id="quoteTextarea" placeholder="Quote?"></textarea>
+                        
+                      </div>
+                    </div>
+              </div>
+                <div class="quoteRetweetPost"></div>
+                
+                <div class="modal-footer">
+                
+                  <button type="button" class="btn btn-primary replyButton" id="quoteRetweetButton" disabled="">Retweet</button>
+                </div>
+              </div>
+            </div>
           </div>

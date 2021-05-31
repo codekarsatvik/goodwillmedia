@@ -19,11 +19,12 @@ app.use(session({
   saveUninitialized: false
 }))
 //  routes
-const loginRoute = require('./routes/loginroutes');
+const loginRoute = require('./routes/loginRoutes');
 app.use('/login', loginRoute);
 
 
-const registerRoute = require('./routes/registerroutes');
+
+const registerRoute = require('./routes/registerRoutes');
 app.use('/register', registerRoute);
 
 
@@ -34,6 +35,11 @@ app.use('/logout', logoutRoute);
 const postsApiRoute = require('./routes/api/posts');
 app.use('/api/posts', postsApiRoute);
 
+const postRoute = require('./routes/viewPost');
+app.use('/posts', middleware.requireLogin, postRoute);
+
+const profileRoute = require('./routes/profilePage');
+app.use('/profile', middleware.requireLogin, profileRoute);
 
 app.get('/', middleware.requireLogin, (req, res, next) => {
   var payload = {
