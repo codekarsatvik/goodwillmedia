@@ -35,16 +35,22 @@ app.use('/logout', logoutRoute);
 const postsApiRoute = require('./routes/api/posts');
 app.use('/api/posts', postsApiRoute);
 
+const userApiRoute = require('./routes/api/users');
+app.use('/api/users', userApiRoute);
+
 const postRoute = require('./routes/viewPost');
 app.use('/posts', middleware.requireLogin, postRoute);
 
 const profileRoute = require('./routes/profilePage');
 app.use('/profile', middleware.requireLogin, profileRoute);
 
+
+
 app.get('/', middleware.requireLogin, (req, res, next) => {
   var payload = {
     pageTitle: "Home",
     userLoggedIn: req.session.user,
+    profileUser : req.session.user,
     userLoggedInJs : JSON.stringify(req.session.user)
   }
   res.status(200).render('home', {

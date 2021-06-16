@@ -1,6 +1,7 @@
 :root {
     --blue: #1FA2F1;
     --blueLight: #9BD1F9;
+    --bluebackground: rgba(212,237,255,0.6) ;
     --buttonHoverBg: #d4edff;
     --lightGrey: rgb(230, 236, 240);
     --spacing: 15px;
@@ -73,7 +74,8 @@ button {
 }
 /*  this made the icon not clickable so every times time button gets clicked  */
 button i,
-button span {
+button span,
+a i{
     pointer-events: none;
 }
 
@@ -248,3 +250,159 @@ button span {
     border-radius: 10px;
     
 }
+.upperProfile .backgroundSection{
+    height: 180px;
+    background-color: var(--blue);
+    position: relative;
+    display : flex;
+    align-items: center;
+    justify-content:center; 
+}
+.upperProfile .userImageContainer{
+    height: 132px;
+    width:132px;
+    position: absolute;
+    margin-left: var(--spacing);
+    top : 165px;
+
+    display : flex;
+    align-items: center;
+    justify-content:center; 
+}
+.upperProfile .userImageContainer img {
+    border: 4px solid #fff;
+}
+
+.upperProfile .profilePageButtons{
+    text-align : right;
+    padding :var(--spacing);
+    min-height: 66px;
+}
+
+.profileButton,
+.followButton{
+    border: 1px solid var(--blue);
+    color : var(--blue) !important;
+    font-weight: bold;
+    border-radius: 60px;
+    padding : 5px 15px;
+    display: inline-block;
+    
+}
+
+.profileButton:hover,
+.followButton:hover{
+    color : var(--blue) !important;
+    background-color: var(--bluebackground);
+   
+}
+
+.followButton.Following{
+    background-color: var(--blue);
+    color : #fff !important;
+}
+.upperProfile .userDetails {
+    display: flex;
+    flex-direction: column;
+    padding: 0 var(--spacing);
+}
+
+.followersContainer .value {
+    font-weight: bold;
+    margin-right: 5px;
+}
+
+.followersContainer span:not(.value) {
+    color: var(--greyText);
+}
+
+.followersContainer a {
+    margin-right: 15px;
+}
+
+.followersContainer a:hover {
+    border-bottom: 1px solid #000;
+}
+
+.tabsContainer {
+    display: flex;
+    border-bottom: 1px solid var(--lightGrey);
+    flex-shrink: 0;
+}
+
+.tab {
+    flex: 1;
+    height: 52px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    color: var(--greyText);
+    font-weight: bold;
+}
+
+.tab.active {
+    color: var(--blue);
+    border-bottom: 2px solid var(--blue);
+}
+
+.tab:hover {
+    color: var(--blue);
+    background-color: var(--bluebackground);
+}
+
+.noResults {
+    padding: var(--spacing);
+}
+
+.resultsContainer {
+    display: flex;
+    flex-direction: column;
+}
+
+.resultsContainer .user {
+    padding: var(--spacing);
+    display: flex;
+    border-bottom: 1px solid var(--lightGrey);
+}
+
+.user .userDetailsContainer {
+    flex: 1;
+    padding: 0 var(--spacing)
+}
+
+.profilePictureButton {
+    position: absolute;
+    font-size: 50px;
+    color: rgba(0,0,0,0.6);
+    display: none;
+}
+.coverPictureButton {
+    position: absolute;
+    font-size: 50px;
+    color: rgba(0,0,0,0.6);
+    display: none;
+}
+
+.userImageContainer:hover .profilePictureButton {
+    display: block;
+}
+.backgroundSection:hover .coverPictureButton {
+    display: block;
+}
+
+.coverPic{
+    width: 100%;
+    height: 100%;
+    object-fit: cover ;
+}
+#imagePreview{
+ 
+        display: block;
+        width: 100%;
+        height: 100%;
+        /* This rule is very important, please don't ignore this */
+        max-width: 100%;
+
+}
+
+

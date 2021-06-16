@@ -25,3 +25,64 @@
       </div>
     </div>
   </div>
+
+
+<!-- profile pic modal -->
+  <div class="modal fade" id="profilePictureModal" tabindex="-1" role="dialog" aria-labelledby="profileModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document" style="">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="profileModalLabel">Change Profile Picture</h5>
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        <div class="modal-body" style="padding : 0">
+         <input type="file" name="profile image" id="profilePicture" style="margin: 10px; ">
+
+         <div class="imagePreviewContainer"><img src="<%= payload.profileUser.profilePic %>" alt="" id="imagePreview"></div>
+        </div>
+        
+        <div class="modal-footer">
+          <% if(payload.profileUser.profilePic != "/images/profilePic.jpeg"){ %>
+            
+            
+            <button type="button" class="btn btn-danger " id="deleteProfilePictureButton" >Delete Profile Picture</button>
+       
+        <%}%>
+          <button type="button" class="btn btn-primary " id="submitProfilePictureButton" >Change</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!--  cover picture modal -->
+
+  <div class="modal fade" id="coverPictureModal" tabindex="-1" role="dialog" aria-labelledby="coverModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document" style="">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="coverModalLabel">Change Cover Picture</h5>
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        <div class="modal-body" style="padding : 0">
+         <input type="file" name="profile image" id="coverPicture" style="margin: 10px; ">
+
+         <div class="coverPreviewContainer"><img src="" alt="" id="coverPreview"></div>
+        </div>
+        
+        <div class="modal-footer">
+          <% if(payload.profileUser.coverPic != "null"){ %>
+            
+            
+            <button type="button" class="btn btn-danger " id="deleteCoverPictureButton" >Delete Cover Picture</button>
+       
+        <%}%>
+         
+          <button type="button" class="btn btn-primary replyButton" id="submitCoverPictureButton" >Change</button>
+        </div>
+      </div>
+    </div>
+  </div>

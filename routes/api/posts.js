@@ -1,6 +1,7 @@
 const express = require('express');
 const app = express();
 const router = express.Router();
+
 const bodyParser = require("body-parser")
 const User = require('../../schemas/UserSchema');
 const Post = require('../../schemas/PostSchema');
@@ -12,22 +13,31 @@ app.use(bodyParser.urlencoded({ extended: false }));
 // }).catch(function(error){
 //     console.log(error); // Failure
 // });
-router.get("/", (req, res, next) => {
-    Post.find()
-    .populate("postedBy")
-    .sort({ "createdAt": -1 })
-    .populate("retweetData")
-    .populate("replyTo")
-    .then(async results => {
-        results = await User.populate(results , {path : "replyTo.postedBy"});
-        results = await User.populate(results , {path : "retweetData.postedBy"});
-        
-        res.status(200).send(results);
-    })
-    .catch(error => {
-        console.log(error);
-        res.sendStatus(400);
-    })
+router.get("/", async (req, res, next) => {
+
+    var filter = req.query ;
+
+    if(filter.isReply !== undefined){
+
+
+        var isReply = filter.isReply == "true";
+        filter.replyTo = { $exists : filter.isReply };
+        delete filter.isReply ;
+    }
+
+    if(filter.followingOnly !== undefined){
+        var followingOnly = filter.followingOnly == "true";
+        if(followingOnly){
+            
+        var objectId = req.session.user.following;
+        objectId.push(req.session.user._id);
+        filter.postedBy = { $in : objectId };
+        }
+        delete filter.followingOnly ;
+    }
+    var postData = await getPosts(filter);
+    
+    res.status(200).send(postData);
 })
 
 router.get("/:id", async (req, res, next) => {
@@ -63,7 +73,7 @@ router.post("/", async (req, res, next) => {
     if(req.body.replyTo){
         postData.replyTo = req.body.replyTo ;
     }
-
+   
     Post.create(postData)
     .then(async newPost => {
         newPost = await User.populate(newPost, { path: "postedBy" })
@@ -116,7 +126,8 @@ router.post("/:id/retweet", async (req, res, next) => {
     })
 
     var option = isDeleted != null ? "$pull" : "$addToSet";
-    console.log(option);
+   
+
 
     var repost = isDeleted;
 
@@ -152,7 +163,7 @@ router.post("/:id/quoteretweet", async (req, res, next) => {
     var userId = req.session.user._id;
     var data = req.body.data ;
     
-    console.log(req.body.data);
+    
     var isDeleted = await Post.findOneAndDelete({postedBy : userId , retweetData : postId})
     .catch(error => {
         console.log(error);
@@ -160,7 +171,7 @@ router.post("/:id/quoteretweet", async (req, res, next) => {
     })
 
     var option = isDeleted != null ? "$pull" : "$addToSet";
-    console.log(option);
+    
 
     var repost = isDeleted;
 

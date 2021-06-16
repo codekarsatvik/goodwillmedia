@@ -1,3 +1,5 @@
+
+var cropper;
 $("#postTextarea").keyup(event => {
     var textbox = $(event.target);
     
@@ -14,6 +16,9 @@ $("#postTextarea").keyup(event => {
 
     submitButton.prop("disabled", false);
 })
+
+
+
 $("#quoteTextarea").keyup(event => {
     var textbox = $(event.target);
     
@@ -71,30 +76,6 @@ $("#submitPostButton, #submitReplyButton").click((event) => {
     })
 })
 
-// $("#quoteRetweetButton").click((event) => {
-//     var button = $(event.target);
-    
-//     var textbox =  $("#quoteTextarea") ;
-     
-//     var data = {
-//         content: textbox.val()
-//     }
-    
-//     var postId = button.data().id;
-    
-//     data.retweetTo = postId;
-    
-//     $.post("/api/posts", data, postData => {
-//         if(postData.replyTo){
-//             location.reload();
-//         }
-//         var html = createPostHtml(postData);
-//         $(".postsContainer").prepend(html);
-//         textbox.val("");
-//         button.prop("disabled", true);
-        
-//     })
-// })
 
 $(document).on("click", ".likeButton", (event) => {
     var button = $(event.target);
@@ -162,6 +143,25 @@ $(document).on("click", ".retweet", (event) => {
 
 })
 
+//  for follwoing purpos
+$(document).on("click", ".followButton", (event) => {
+    var button = $(event.target);
+    var userId = button.data().id ;
+   
+   
+    
+
+    $.ajax({
+        url: `/api/users/${userId}/follow`,
+        type: "PUT",
+        success: () => {
+
+            window.location.reload();
+
+        }
+    })
+
+})
 $(document).on("click", "#submitDeleteButton", (event) => {
     var button = $(event.target);
     var postId = button.data().id ;
@@ -230,6 +230,150 @@ $("#replyModal").on("show.bs.modal",(event)=>{
     console.log(postId);
 })
 
+
+//  for uplaoding profile picture
+$("#profilePicture").change(function(){
+    // var input = $(event.target);
+ 
+    if(this.files && this.files[0]){
+        var reader = new FileReader();
+        reader.onload = (e) =>{
+            $("#imagePreview").attr("src", e.target.result);
+         const image = document.getElementById('imagePreview');
+          cropper = new Cropper(image, {
+         aspectRatio: 1 / 1,
+        
+});
+        }
+        reader.readAsDataURL(this.files[0]);
+
+       
+    }
+    
+})
+//  cover photo 
+$("#coverPicture").change(function(){
+    // var input = $(event.target);
+ 
+    if(this.files && this.files[0]){
+        var reader = new FileReader();
+        reader.onload = (e) =>{
+            $("#coverPreview").attr("src", e.target.result);
+         const image = document.getElementById('coverPreview');
+          cropper = new Cropper(image, {
+         aspectRatio: 16 / 9,
+        
+});
+        }
+        reader.readAsDataURL(this.files[0]);
+
+       
+    }
+    
+})
+
+
+$(document).on("click","#submitProfilePictureButton",(event)=>{
+    var canvas = cropper.getCroppedCanvas();
+
+    if(canvas ==  null){
+        alert("Please upload an image properly");
+        return;
+    }
+
+    //  Blob is basically a binary large object used to store audio , video and images we will create our canvas to a blob and the npass is to server to store the
+
+    canvas.toBlob((blob)=>{
+        var formdata = new FormData();
+        formdata.append("CroppedImage",blob);
+
+        $.ajax({
+
+            url : "/api/users/profilePicture",
+            type : "POST",
+            // processdata prevents from converting jquery to string
+            processData : false, 
+            //  to prevent header content ( boundry limit)
+            data : formdata,
+            contentType : false,
+            success : function(){
+                window.location.reload();
+            }
+        })
+    })
+})
+//  cover photo
+
+$(document).on("click",".deleteProfilePictureButton",(event)=>{
+    
+
+    
+
+    //  Blob is basically a binary large object used to store audio , video and images we will create our canvas to a blob and the npass is to server to store the
+    
+        $.ajax({
+
+            url : "/api/users/profilePicture",
+            type : "DELETE",
+            // processdata prevents from converting jquery to string
+            success : function(){
+                window.location.reload();
+            }
+        })
+ })
+$(document).on("click","#submitCoverPictureButton",(event)=>{
+    var canvas = cropper.getCroppedCanvas();
+
+    if(canvas ==  null){
+        alert("Please upload an image properly");
+        return;
+    }
+
+    //  Blob is basically a binary large object used to store audio , video and images we will create our canvas to a blob and the npass is to server to store the
+
+    canvas.toBlob((blob)=>{
+        var formdata = new FormData();
+        formdata.append("CroppedCoverImage",blob);
+
+        $.ajax({
+
+            url : "/api/users/coverPicture",
+            type : "POST",
+            // processdata prevents from converting jquery to string
+            processData : false, 
+            //  to prevent header content ( boundry limit)
+            data : formdata,
+            contentType : false,
+            success : function(){
+                window.location.reload();
+            }
+        })
+    })
+})   
+
+
+$("#deleteCoverPictureButton").click((event)=>{
+    
+
+    
+
+    //  Blob is basically a binary large object used to store audio , video and images we will create our canvas to a blob and the npass is to server to store the
+
+    
+        $.ajax({
+
+            url : "/api/users/coverPicture",
+            type : "DELETE",
+          
+            // processdata prevents from converting jquery to string
+            success : function(){
+                window.location.reload();
+            }
+        })
+})
+
+
+
 $("#quoteRetweetModal").on("show.bs.modal",(event)=>{
     var button = $(event.relatedTarget);
     var postId = getPostIdFromElement(button);
@@ -237,7 +381,7 @@ $("#quoteRetweetModal").on("show.bs.modal",(event)=>{
     $.get("/api/posts/" + postId, results => {
         outputPosts(results.postData, $(".quoteRetweetPost"));
     })
-    console.log(postId);
+    
 })
 $("#replyModal").on("hidden.bs.modal",(event)=>{
     $(".replyPost").html("");
@@ -245,19 +389,18 @@ $("#replyModal").on("hidden.bs.modal",(event)=>{
 })
 function outputPosts(results, container) {
     container.html("");
-    console.log(results);
-    console.log(Array.isArray(results));
+  
     if(Array.isArray(results)){
     results.forEach((result) => {
-        console.log(result);
+      
         var html = createPostHtml(result);
         
         container.append(html);
     });
 }else{
     var html = createPostHtml(results);
-    console.log(html);
-    console.log(container);
+  
+   
     container.append(html);
 }
 
@@ -364,7 +507,7 @@ function createPostHtml(postData, largeFont = false) {
                 </div>
                 <div class='mainContentContainer'>
                     <div class='userImageContainer'>
-                        <img src='${postedBy.profilePic}'>
+                        <img src='${postedBy.profilePic}' onerror="this.onerror=null; this.src='/images/profilePic.jpeg'">
                     </div>
                     <div class='postContentContainer'>
                         <div class='header'>

@@ -2,9 +2,10 @@
 <%- include('partials/mainlayout') %>
 
 <div class="postFormContainer">
-  <div class="userImageContainer"><img src="<%= payload.userLoggedIn.profilePic %>" alt="User's profile picture"/></div>
+  <div class="userImageContainer"><img src="<%= payload.userLoggedIn.profilePic %>" onerror="this.onerror=null; this.src='/images/profilePic.jpeg'"  alt="User's profile picture"/></div>
   <div class="textareaContainer">
     <textarea id="postTextarea" placeholder="What's happening?"></textarea>
+ 
     <div class="buttonsContainer">
       <button id="submitPostButton" disabled="">Post</button>
     </div>
