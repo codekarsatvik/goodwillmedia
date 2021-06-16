@@ -14,6 +14,7 @@ router.get("/:id", (req, res, next) => {
     var payload = {
         pageTitle: "View Post",
         userLoggedIn: req.session.user,
+        profileUser : req.session.user,
         userLoggedInJs : JSON.stringify(req.session.user),
         postId : JSON.stringify(req.params.id)
       }
