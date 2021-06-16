@@ -304,13 +304,13 @@ $(document).on("click","#submitProfilePictureButton",(event)=>{
 })
 //  cover photo
 
-$(document).on("click",".deleteProfilePictureButton",(event)=>{
+$(document).on("click","#deleteProfilePictureButton",(event)=>{
     
 
     
 
     //  Blob is basically a binary large object used to store audio , video and images we will create our canvas to a blob and the npass is to server to store the
-    
+    console.log("clicked profile");
         $.ajax({
 
             url : "/api/users/profilePicture",
@@ -321,6 +321,7 @@ $(document).on("click",".deleteProfilePictureButton",(event)=>{
             }
         })
  })
+
 $(document).on("click","#submitCoverPictureButton",(event)=>{
     var canvas = cropper.getCroppedCanvas();
 
@@ -359,7 +360,7 @@ $("#deleteCoverPictureButton").click((event)=>{
 
     //  Blob is basically a binary large object used to store audio , video and images we will create our canvas to a blob and the npass is to server to store the
 
-    
+    console.log("clicked cover")
         $.ajax({
 
             url : "/api/users/coverPicture",

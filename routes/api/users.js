@@ -136,7 +136,11 @@ router.delete("/coverPicture",async (req, res, next)=>{
     // var targetPath = path.join(__dirname , `../../${filepath}`);
     //  this is to store images in a correct folder
     if(coverfilepath == undefined){
-        return ;
+        if(req.session.user.coverPic != undefined){
+        coverfilepath = req.session.user.coverPic;}
+        else{
+            return ;
+        }
     }
     fs.unlink(`public${coverfilepath}`, function(err) {
         if (err) {
@@ -145,7 +149,7 @@ router.delete("/coverPicture",async (req, res, next)=>{
           console.log("Successfully deleted the file.")
         }
       })
-    User.findByIdAndUpdate(req.session.user._id, { coverPic : "null" }, { new: true})
+    User.findByIdAndUpdate(req.session.user._id, { coverPic : "" }, { new: true})
     .catch(error => {
         console.log(error);
         res.sendStatus(400);
@@ -165,9 +169,10 @@ router.delete("/profilePicture",async (req, res, next)=>{
     // var targetPath = path.join(__dirname , `../../${filepath}`);
     //  this is to store images in a correct folder
     if(profilefilepath == undefined){
-        return ;
+        profilefilepath = req.session.user.profilePic;
        
     }
+    console.log(profilefilepath);
     fs.unlink(`public${profilefilepath}`, function(err) {
         if (err) {
           throw err
