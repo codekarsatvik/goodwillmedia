@@ -521,7 +521,7 @@ function createPostHtml(postData, largeFont = false) {
                             <span>${postData.content}</span>
                         </div>
                         <div class='postFooter'>
-                            <div class='postButtonContainer'>
+                            <div class='postButtonContainer blue'>
                                 <button data-toggle="modal" data-target="#replyModal">
                                     <i class='far fa-comment'></i>
                                 </button>
