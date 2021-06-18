@@ -1,26 +1,38 @@
-$(document).ready(()=>{
-    if(selectedTab == "followers"){
-        loadFollowers();
-    }else{
-        loadFollowing();
-    }
+var timer ;
+$("#searchBox").keydown((event)=>{
+    clearTimeout(timer);
+    var textbox = $(event.target);
+    var value = textbox.val();
+    var searchType = textbox.data().search ;
+    var timer = setTimeout(function(){
+        
+        value =  textbox.val().trim();
+        // console.log(value);
+        // console.log(searchType);
+        if(value !== ""){
+        search(value,searchType);
+        }
+    },1000)
     
-});
 
-function loadFollowing(){
+})
+
+function search( searchTerm , searchType) {
+   
+    var url = searchType == "users" ? "/api/users" : "/api/posts" ;
     
-    $.get(`/api/users/${profileUserId}/following`,results =>{
-     
-        outputUsers(results.following, $('.resultsContainer'));
+
+    $.get(url, {search : searchTerm}, (results)=>{
+        if(searchType == "users"){
+            outputUsers(results, $(".resultsContainer"));
+            event.preventDefault();
+        }else{
+            outputPosts(results, $(".resultsContainer"));
+            event.preventDefault();
+        }
     })
 }
-function loadFollowers(){
-    
-    $.get(`/api/users/${profileUserId}/followers`,results =>{
 
-        outputUsers(results.followers, $('.resultsContainer'));
-    })
-}
 
 function outputUsers(results, container) {
     container.html("");
@@ -40,12 +52,12 @@ function createUserHtml(userData, showFollowButton) {
     var name = userData.firstName + " " + userData.lastName;
     var isFollowing = userLoggedIn.following && userLoggedIn.following.includes(userData._id);
     var text = isFollowing ? "Following" : "Follow"
-    // var buttonClass = isFollowing ? "followButton Following" : "followButton"
+    var buttonClass = isFollowing ? "followButton Following" : "followButton"
 
     var followButton = "";
     if (showFollowButton && userLoggedIn._id != userData._id) {
         followButton = `<div class='followButtonContainer'>
-                            <button class='followButton ' data-id='${userData._id}'>${text}</button>
+                            <button class='${buttonClass}' data-id='${userData._id}'>${text}</button>
                         </div>`;
     }
 

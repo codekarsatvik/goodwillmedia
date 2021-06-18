@@ -24,6 +24,14 @@ router.get("/", async (req, res, next) => {
         filter.replyTo = { $exists : filter.isReply };
         delete filter.isReply ;
     }
+    if(filter.search !== undefined){
+
+
+        
+        filter.content = { $regex : filter.search, $options : "i"  };
+        console.log(filter.content);
+        delete filter.search ;
+    }
 
     if(filter.followingOnly !== undefined){
         var followingOnly = filter.followingOnly == "true";

@@ -38,17 +38,41 @@ router.put("/:id/follow", async (req, res, next) => {
     })
     
     // Insert post like
-    User.findByIdAndUpdate(followUserId, { [option]: { followers:  userId } }, { new: true})
+     await User.findByIdAndUpdate(followUserId, { [option]: { followers:  userId } }, { new: true})
     .catch(error => {
         console.log(error);
         res.sendStatus(400);
     })
 
 
-    res.status(200).send();
+    res.status(200).send(req.session.user);
 })
 
+router.get("/", async (req, res, next) => {
 
+    var filter = req.query ;
+
+    
+    if(filter.search !== undefined){
+
+       filter ={
+        $or : [
+         {firstName : { $regex : filter.search, $options : "i"  }},
+         {username : { $regex : filter.search, $options : "i"  }},
+
+         {lastName : { $regex : filter.search, $options : "i"}},
+        ]
+
+    }
+        // console.log(filter.content);
+        delete filter.search ;
+    }
+    var results = await User.find(filter)
+    .catch((err)=>{
+        console.log(err);
+    })
+    res.status(200).send(results);
+})
 
 router.get("/:id/following", async (req, res, next) => {
 
@@ -136,7 +160,7 @@ router.delete("/coverPicture",async (req, res, next)=>{
     // var targetPath = path.join(__dirname , `../../${filepath}`);
     //  this is to store images in a correct folder
     if(coverfilepath == undefined){
-        if(req.session.user.coverPic != undefined){
+        if(req.session.user.coverPic != ""){
         coverfilepath = req.session.user.coverPic;}
         else{
             return ;

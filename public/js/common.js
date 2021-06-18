@@ -154,9 +154,26 @@ $(document).on("click", ".followButton", (event) => {
     $.ajax({
         url: `/api/users/${userId}/follow`,
         type: "PUT",
-        success: () => {
+        success: (data) => {
 
-            window.location.reload();
+            var difference = 1;
+            console.log(data);
+            if(data.following && data.following.includes(userId)) {
+                button.addClass("following");
+                button.text("Following");
+            }
+            else {
+                button.removeClass("following");
+                button.text("Follow");
+                difference = -1;
+            }
+            
+            var followersLabel = $(".value");
+            if(followersLabel.length != 0) {
+                var followersText = followersLabel.text();
+                followersText = parseInt(followersText);
+                followersLabel.text(followersText + difference);
+            }
 
         }
     })

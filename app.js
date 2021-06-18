@@ -44,6 +44,9 @@ app.use('/posts', middleware.requireLogin, postRoute);
 const profileRoute = require('./routes/profilePage');
 app.use('/profile', middleware.requireLogin, profileRoute);
 
+const searchRoute = require('./routes/searchRoutes');
+app.use('/search',  middleware.requireLogin, searchRoute);
+
 
 
 app.get('/', middleware.requireLogin, (req, res, next) => {
