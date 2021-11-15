@@ -47,7 +47,8 @@ app.use('/profile', middleware.requireLogin, profileRoute);
 const searchRoute = require('./routes/searchRoutes');
 app.use('/search',  middleware.requireLogin, searchRoute);
 
-
+const discussRoute = require('./routes/discussRoutes');
+app.use('/discussion',  middleware.requireLogin, discussRoute);
 
 app.get('/', middleware.requireLogin, (req, res, next) => {
   var payload = {
